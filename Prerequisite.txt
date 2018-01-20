@@ -1,0 +1,6 @@
+courseG courseA courseF courseE
+courseF courseB courseE
+courseA courseB courseC
+courseB courseC courseD
+courseE courseC courseD
+courseH courseB courseF courseG

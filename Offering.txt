@@ -1,0 +1,10 @@
+courseA 3
+courseB 2
+courseG 2
+courseD 1
+courseF 3
+courseH 1
+courseL 2
+courseC 1
+courseK 3
+courseE 2
