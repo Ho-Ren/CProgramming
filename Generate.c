@@ -1,3 +1,6 @@
+/*Ho-Ren Kang
+horenk 21397985
+*/
 #include <stdio.h>
 #include <string.h>
 struct Course {
@@ -10,12 +13,8 @@ struct Course {
 struct Course courses[21];
 int coursesSize = 0;
 int coursesSizeTracker = 0;
-/*
-    1. Get all Requirements in an array
-    2. Check Prerequisites of Requirements and store all prereqs in an array  .
-    3. 
-*/
-//Array of course
+
+
 char fall[21][21];
 int sizeFall = 0;
 char winter[21][21];
@@ -30,14 +29,14 @@ char prerequisites[21][21];
 int sizePrerequisites = 0;
 
 
-//returns index of the course
 int courseExists(char title[21])
 {
-    for(int i = 0; i < coursesSize; i++)
+    int i = 0;
+    for(; i < coursesSize; i++)
     {
         if(strcmp(title, courses[i].title) == 0)
         {
-            //printf("Course exists: %s\n", title);
+            
             return i;     
         }
     }
@@ -60,7 +59,8 @@ void pushBack(char title[21])
 
 int hasNoPrerequisites(char title[21])
 {
-    for(int i = 0; i < coursesSize; i++)
+    int i = 0;
+    for(; i < coursesSize; i++)
     {
         if(strcmp(courses[i].title, title) == 0)
         {
@@ -76,7 +76,8 @@ int hasNoPrerequisites(char title[21])
 
 void pushBackPrerequisites(char title[21])
 {
-    for(int i = 0; i < sizePrerequisites; i++)
+    int i = 0;
+    for(; i < sizePrerequisites; i++)
     {
         if(strcmp(title, prerequisites[i]) == 0){
             return;
@@ -95,7 +96,7 @@ void readOfferingFile(char filename[20])
     char secondValue[21];
     
     while(fgets(string, 100, file)) {
-        printf("%s\n", string);
+        
         char *token = strtok(string, " ");
         while (token != NULL)
         {    
@@ -107,19 +108,19 @@ void readOfferingFile(char filename[20])
             if(secondValue[0] == '1') 
             {
                 strcpy(fall[sizeFall], firstValue);
-                printf(" Fall quarter: %s\n", fall[sizeFall]);
+                
                 sizeFall++;
             }
             else if(secondValue[0] == '2') 
             {
                 strcpy(winter[sizeWinter], firstValue);
-                printf(" Winter quarter: %s\n", winter[sizeWinter]);
+                
                 sizeWinter++;
             }
             else if(secondValue[0] == '3') 
             {
                 strcpy(spring[sizeSpring], firstValue);
-                printf(" Spring quarter: %s\n", spring[sizeSpring]);
+                
                 sizeSpring++;
             }
             token = strtok(NULL, " ");
@@ -133,13 +134,13 @@ void readOfferingFile(char filename[20])
 
 void readPrerequisiteFile(char filename[20])
 {
-    //printf("\nIN PREREQ FILE\n\n");
+    
     FILE *file = NULL;
     file = fopen (filename,"r");
     char string[100];
     while(fgets(string, 100, file)) 
     {
-        //printf("%s\n", string);
+        
         char *token = strtok(string, " ");
         if (token != NULL)
         {
@@ -158,11 +159,10 @@ void readPrerequisiteFile(char filename[20])
                     char str[21];
                     strcpy(str, token);
                     strcpy(courses[exists].prerequisites[courses[exists].numPrerequisites], str);
-                    //printf("Course prereq: %s\n", courses[exists].prerequisites[courses[exists].numPrerequisites]);
+                    
                     courses[exists].numPrerequisites++;
-                    courses[exists].numPrerequisitesTracker++;//This should add all prereqs to the course
-                    //If prereq does not already exist in courses push it back
-                    //add course to courses if the course does not already exist in courses
+                    courses[exists].numPrerequisitesTracker++;
+
                     pushBackPrerequisites(str);
                     token = strtok(NULL, " ");
                 }
@@ -181,14 +181,14 @@ void readRequirementFile(char filename[20])
     char string[100];
     while(fgets(string, 100, file)) 
     {
-        //printf("%s\n", string);
+      
         char *token = strtok(string, " ");
         while (token != NULL)
         {
             char *newline = strchr( token, '\n' );
             if (newline)
             *newline = 0;
-            //printf("%s\n", token);
+            
             strcpy(requiredCourses[sizeRequiredCourses], token);
             sizeRequiredCourses++;
             token = strtok(NULL, " ");
@@ -200,7 +200,8 @@ void readRequirementFile(char filename[20])
 
 void printArray(int size, char array[21][21])
 {
-    for(int i = 0; i < size; i++)
+    int i = 0;
+    for(; i < size; i++)
     {
         printf("%s, ", array[i]);
     }
@@ -208,7 +209,8 @@ void printArray(int size, char array[21][21])
 
 void makeMandatoryClasses()
 {
-    for(int i = 0; i < sizeRequiredCourses; i++)
+    int i = 0;
+    for(; i < sizeRequiredCourses; i++)
     {
             struct Course course;
             strcpy(course.title, requiredCourses[i]);
@@ -222,7 +224,8 @@ void makeMandatoryClasses()
 
 void printMandatoryClasses(struct Course courses[21])
 {
-    for(int i = 0; i < coursesSize; i++)
+    int i = 0;
+    for(; i < coursesSize; i++)
     {
         printf("Mandatory: %s, %d, %d, \n", courses[i].title, courses[i].numPrerequisites, courses[i].numPrerequisitesTracker);
         printArray(courses[i].numPrerequisites, courses[i].prerequisites);
@@ -232,9 +235,10 @@ void printMandatoryClasses(struct Course courses[21])
 
 void makeMoreMandatoryClasses()
 {
-    for(int i = 0; i < sizePrerequisites; i++)
+    int i = 0;
+    for(; i < sizePrerequisites; i++)
     {
-        printf("prerequisites: %s\n", prerequisites[i]);
+        
         pushBack(prerequisites[i]);
     }
 }
@@ -242,10 +246,12 @@ void makeMoreMandatoryClasses()
 
 void takeCourse(char title[21])
 {
-    for(int i = 0; i < coursesSize; i++)
+    int i = 0;
+    for( ;i < coursesSize; i++)
     {
         int np = courses[i].numPrerequisites;
-        for(int j = 0; j < np; j++)
+        int j = 0;
+        for(; j < np; j++)
         {
             if(strcmp(courses[i].prerequisites[j], title) == 0)
             {
@@ -262,43 +268,68 @@ void takeCourse(char title[21])
     }
 }
 
-void printAvailableClasses(int quarter)
+void printAvailableClasses(int year, int quarter)
 {
+    int oneTimePrint = 1;
     if(quarter == 1)
     {
-        for(int i = 0; i < sizeFall; i++)
+        int i = 0;
+        for(; i < sizeFall; i++)
         {
             int index = courseExists(fall[i]);
             if(index != -1 && courses[index].numPrerequisitesTracker == 0)
             {
+                if(oneTimePrint)
+                {
+                    printf("%d %d ", year, quarter);
+                    oneTimePrint--;
+                }
                 printf("%s ", fall[i]);
                 takeCourse(fall[i]);
             }
         }     
+        if(oneTimePrint == 0)
+        printf("\n");
     }
     else if(quarter == 2)
     {
-        for(int i = 0; i < sizeWinter; i++)
+        int i = 0;
+        for(; i < sizeWinter; i++)
         {
             int index = courseExists(winter[i]);
             if(index != -1 && courses[index].numPrerequisitesTracker == 0)
             {
+                if(oneTimePrint)
+                {
+                    printf("%d %d ", year, quarter);
+                    oneTimePrint--;
+                }
                 printf("%s ", winter[i]);
                 takeCourse(winter[i]);
             }
         }
+            if(oneTimePrint == 0)
+            printf("\n");
     }
     else if(quarter == 3)
     {
-        for(int i = 0; i < sizeSpring; i++)
+        int i = 0;
+        for(; i < sizeSpring; i++)
         {
             int index = courseExists(spring[i]);
             if(index != -1 && courses[index].numPrerequisitesTracker == 0)
             {
+                if(oneTimePrint)
+                {
+                    printf("%d %d ", year, quarter);
+                    oneTimePrint--;
+                }
                 printf("%s ", spring[i]);
                 takeCourse(spring[i]);
             }
         }
+            if(oneTimePrint == 0)
+            printf("\n");
     }
 
 }
@@ -307,72 +338,35 @@ void printSchedule()
 {
     int year = 1;
     coursesSizeTracker = coursesSize;
-    printf("%d \n\n", coursesSizeTracker);
-    while(coursesSizeTracker != 0 && year < 11)
+   
+    while(coursesSizeTracker != 0 && year < 20)
     {
-        for(int i = 1; i < 4; i++)
+        int i = 1;
+        for(; i < 4; i++)
         {
-            printf("%d %d ", year, i);
-            printAvailableClasses(i);
-            printf("\n");
+            
+            printAvailableClasses(year, i);
+            
         }
         year++;
     }
 }
 
-int main() {
+int main(int argc, char *argv[]) {
     char Offering[20];
     char Prerequisite[20];
     char Requirement[20];
-    // printf("Enter Offering filename\n");
-    // scanf("%s", Offering);
-    // printf("Enter Prerequisite filename\n");
-    // scanf("%s", Prerequisite);
-    // printf("Enter Requirement filename\n");
-    // scanf("%s", Requirement);
     
-    // printf("%s\n", Offering);
+    strcpy(Offering, argv[1]);
+    strcpy(Prerequisite, argv[2]);
+    strcpy(Requirement, argv[3]);
 
-    readOfferingFile("Offering.txt");
-    printf("\nFall courses: \n");
-    printArray(sizeFall, fall);
-    
-    printf("\nWinter courses: \n");
-    printArray(sizeWinter, winter);
-    
-    printf("\nSpring courses: \n");
-    printArray(sizeSpring, spring);
-    
-
-    readRequirementFile("Requirement.txt");
-    printf("\nRequirement contents: \n");
-    printArray(sizeRequiredCourses, requiredCourses);
-    
+    readOfferingFile(Offering);
+    readRequirementFile(Requirement);
     makeMandatoryClasses();
-    
-    //readPrerequisiteFile("Prerequisite.txt");
-    printf("\nPrerequisite contents: \n");
-    printMandatoryClasses(courses);
-    printArray(courses[0].numPrerequisites,courses[0].prerequisites);
-    
-    readPrerequisiteFile("Prerequisite.txt");
-    
-    //printf("\n\n");
-    //printMandatoryClasses(courses);
-    
-    //printArray(sizePrerequisites, prerequisites);
-    
+    readPrerequisiteFile(Prerequisite);
     makeMoreMandatoryClasses();
-    printf("\n");
-    //printMandatoryClasses(courses);
-    
-    readPrerequisiteFile("Prerequisite.txt");
-    
-    printf("\n\n");
-    printMandatoryClasses(courses);
-
+    readPrerequisiteFile(Prerequisite);
     printSchedule();
-    
-    //printMandatoryClasses(courses);
     return 0;
 }
